@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ranger Transition Master Plan — Template</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Spectral:wght@400;500;600&display=swap');
+  :root{
+    /* Team Rainier stripe palette — softened, comfortable dark UI */
+    --bg:#14171c; --panel:#1b1f26; --panel2:#222732; --ink:#dfe3ea; --dim:#949bab;
+    --line:#2f3542;
+    /* the stripe colors, in logo order: green -> tan -> orange -> blue, crimson accent */
+    --green:#5aa864; --tan:#b0917a; --orange:#d98a4a; --blue:#5a8fd0; --crimson:#c8465b;
+    --white:#ffffff;
+    /* semantic aliases — spread across the palette rather than red-heavy */
+    --cyan:var(--blue); --amber:var(--orange); --red:var(--crimson); --violet:var(--tan);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{ background:var(--bg); color:var(--ink); font-family:'Spectral',Georgia,serif;
+    line-height:1.5; padding:28px 22px 90px; max-width:940px; margin:0 auto; font-size:15px;}
+  header{border-bottom:2px solid var(--line); padding-bottom:14px; margin-bottom:18px;}
+  h1{ font-family:'Archivo',sans-serif; font-weight:800; font-size:26px; letter-spacing:-0.4px; color:#fff; line-height:1.08;}
+  .sub{ font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:1px; color:var(--tan); text-transform:uppercase; margin-top:8px;}
+  .dates{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--dim);margin-top:10px;line-height:2.0;}
+  .dates b{color:var(--amber);}
+
+  .callout{ background:var(--panel); border-left:3px solid var(--green); padding:11px 14px; border-radius:0 5px 5px 0; margin:16px 0; font-size:13.5px;}
+  .callout .lab{ font-family:'JetBrains Mono',monospace; font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--green); display:block; margin-bottom:4px;}
+  .callout.warn{border-left-color:var(--red);} .callout.warn .lab{color:var(--red);}
+  .callout.blue{border-left-color:var(--blue);} .callout.blue .lab{color:var(--blue);}
+
+  h2{ font-family:'Archivo',sans-serif; font-weight:700; font-size:18px; color:#fff;
+    margin:34px 0 12px; padding-bottom:6px; border-bottom:1px solid var(--line);
+    display:flex; align-items:baseline; gap:10px;}
+  h2 .n{ font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--white); background:var(--dim); padding:2px 8px; border-radius:3px;}
+  /* phase badges cycle the Rainier stripe palette in order: green -> tan -> orange -> blue -> crimson */
+  h2 .n.p-green{background:var(--green);} h2 .n.p-tan{background:var(--tan);}
+  h2 .n.p-orange{background:var(--orange);} h2 .n.p-blue{background:var(--blue);}
+  h2 .n.p-crimson{background:var(--crimson);}
+  h2 .n.p-white{background:var(--white);color:var(--bg);}
+  h3{ font-family:'Archivo',sans-serif; font-weight:600; font-size:13.5px; color:var(--amber);
+    margin:22px 0 8px; text-transform:uppercase; letter-spacing:0.5px;}
+  p{margin:8px 0;}
+  ol,ul{margin:8px 0 8px 4px; padding-left:22px;}
+  li{margin:6px 0; padding-left:3px;}
+  code{ font-family:'JetBrains Mono',monospace; font-size:12.5px; background:var(--panel2); color:var(--cyan); padding:1px 5px; border-radius:3px;}
+
+  table.t{width:100%;border-collapse:collapse;margin:12px 0;font-size:12.5px;border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+  table.t th{background:var(--panel2);text-align:left;padding:9px 11px;color:var(--violet);font-family:'Archivo',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--line);}
+  table.t td{padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top;}
+  table.t tr:last-child td{border-bottom:none;}
+  table.t tr:nth-child(even) td{background:rgba(255,255,255,.015);}
+  .tag{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;letter-spacing:0.5px;text-transform:uppercase;white-space:nowrap;}
+  .tag.pri{background:rgba(111,207,117,.15);color:var(--green);border:1px solid var(--green);}
+  .tag.maybe{background:rgba(224,162,60,.15);color:var(--amber);border:1px solid var(--amber);}
+  .tag.hedge{background:rgba(90,160,224,.15);color:var(--blue);border:1px solid var(--blue);}
+  .tag.dead{background:rgba(224,108,92,.13);color:var(--red);border:1px solid var(--red);}
+
+  .month{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--violet);font-weight:700;letter-spacing:0.5px;margin:22px 0 4px;padding:5px 0;border-top:1px dashed var(--line);}
+  .month .goal{color:var(--dim);font-weight:400;font-family:'Spectral',serif;font-size:13px;}
+  .chk{list-style:none;padding-left:0;margin:8px 0;}
+  .chk li{position:relative;padding-left:24px;margin:6px 0;}
+  .chk li::before{content:"☐";position:absolute;left:0;color:var(--cyan);font-size:14px;}
+  .chk li.done::before{content:"☑";color:var(--green);}
+  .chk li b{color:#fff;}
+  .rule{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:var(--bg);background:var(--amber);padding:1px 6px;border-radius:3px;margin-right:6px;letter-spacing:0.5px;}
+  .note{ background:var(--panel); border-left:3px solid var(--blue); padding:9px 13px; border-radius:0 4px 4px 0; margin:12px 0; font-size:13px; color:var(--dim);}
+  .note b{color:var(--ink);}
+
+  .fill{font-family:'JetBrains Mono',monospace;display:inline-block;min-width:90px;border-bottom:1px dotted var(--cyan);color:var(--amber);padding:0 3px;outline:none;}
+  .fill:empty::before{content:attr(data-ph);color:var(--dim);opacity:.55;}
+  .fill:focus{border-bottom-color:var(--amber);background:rgba(255,255,255,.03);}
+  .chk li{cursor:pointer;user-select:none;}
+  .chk li:hover::before{color:var(--amber);}
+  .chk li.done{color:var(--dim);}
+  .chk li.done b{color:var(--dim);}
+  .toolbar{position:fixed;bottom:0;left:0;right:0;background:var(--panel2);border-top:1px solid var(--line);padding:8px 22px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim);display:flex;justify-content:space-between;align-items:center;z-index:10;}
+  .toolbar .prog{color:var(--green);font-weight:700;}
+  .toolbar button{background:none;border:1px solid var(--line);color:var(--dim);font-family:'JetBrains Mono',monospace;font-size:10px;padding:3px 10px;border-radius:3px;cursor:pointer;}
+  .toolbar button:hover{color:var(--red);border-color:var(--red);}
+</style>
+</head>
+<body>
+<header>
+  <h1>Ranger Transition Master Plan</h1>
+  <div class="sub">ETS roadmap template · derived from the Ranger Transition Blue Book (cao Nov 2025)</div>
+  <div class="dates">
+    <b>Name:</b> <span class="fill" data-f="name" data-ph="name"></span> &nbsp;·&nbsp; <b>Battalion:</b> <span class="fill" data-f="bn" data-ph="1/75" style="min-width:50px"></span> &nbsp;·&nbsp; <b>Mentor:</b> <span class="fill" data-f="mentor" data-ph="mentor name"></span><br>
+    <b>ETS date:</b> <span class="fill" data-f="ets" data-ph="DD MMM YYYY"></span><br>
+    <b>SkillBridge/CSP window opens:</b> <span class="fill" data-f="sb" data-ph="DD MMM YYYY"></span><br>
+    <b>BDD window (ETS−180 → ETS−90):</b> <span class="fill" data-f="bdd" data-ph="start → end" style="min-width:140px"></span>
+  </div>
+</header>
+
+<div class="callout">
+  <span class="lab">How to use this plan</span>
+  Work <b>backwards from your ETS date</b>. Each phase below maps to the Blue Book's ETS Transition Roadmap: <b>SP → CP1 → CP2 → CP3 → CP4 → FP</b>.
+  Fill in your dates at the top, check items off as you go with your mentor, and treat the timing flags in the last section as hard gates — several have windows that do not reopen.
+</div>
+
+<div class="callout blue">
+  <span class="lab">Personal info locally cached</span>
+  Your progress is saved locally in your browser. Hit <b>DOWNLOAD MY COPY</b> to save or share a snapshot.
+</div>
+
+<h2><span class="n p-crimson">B5</span> The Transition Big 5 — every task rolls up to one of these</h2>
+<table class="t">
+  <tr><th>Pillar</th><th>What green looks like</th></tr>
+  <tr><td><b>Networking</b></td><td>Three Rangers Foundation mentor assigned; LinkedIn built (free 1-yr Premium claimed); plugged into alumni Signal groups and a SOF transition program (THF, SOTF, Elite Meet, ADU).</td></tr>
+  <tr><td><b>Continuing Education / Employment</b></td><td>Credits confirmed with Battalion Education Counselor; degree/cert path funded (TA, CA, GI Bill); fellowship or job pipeline live before ETS−6.</td></tr>
+  <tr><td><b>VA Integration &amp; Health Care</b></td><td>Everything documented in your medical record; VSO selected; BDD claim filed in the 180–90 day window; VA Health Care + TRICARE decisions made.</td></tr>
+  <tr><td><b>Financial Literacy</b></td><td>TRF Financial Wellness Assessment done; 3 months expenses saved; TSP allocation actively selected; income/insurance requirements modeled for the gap.</td></tr>
+  <tr><td><b>Holistic Fitness</b></td><td>Physical, spiritual, emotional, and social dimensions each have a plan — not just the gym. Battle-buddy network identified for post-ETS.</td></tr>
+</table>
+
+<h2><span class="n p-green">SP</span> Planning &amp; Preparation — active duty, as early as possible</h2>
+<div class="month">OBJECTIVE <span class="goal">reduce the transition clutter</span></div>
+<ul class="chk">
+  <li><b>Take a Ranger Investment Planning assessment</b> (via Three Rangers Foundation)</li>
+  <li><b>Confirm college credits with your Battalion Education Counselor</b> — maximize service-earned credit before spending a dime</li>
+  <li>Register with ArmyIgnitED and Joint Special Operations University; map degree completion</li>
+  <li>Attend Ranger for Life symposiums; Chaplain Single Soldier events or Strong Bonds marriage retreats; consider an Operation Healing Forces retreat</li>
+  <li>Join the Global SOF Foundation — free while on active duty (SOF for Life job board)</li>
+</ul>
+
+<h2><span class="n p-crimson">CP1</span> Process — ETS−18 months</h2>
+<div class="month">OBJECTIVE <span class="goal">understand the tools + build your transition team</span></div>
+<ul class="chk">
+  <li><b>DoD-TAP pre-separation counseling</b> (DD 2648) — schedule through your installation TAP office</li>
+  <li><b>Take the Initial Ranger Transition Checklist</b></li>
+  <li><b>Enroll in the A More Elite Transition course</b></li>
+  <li><b>Request a mentor from Three Rangers Foundation</b> — this plan is built to be worked with that mentor</li>
+  <li>Apply to The Honor Foundation, SOTF, and/or the American Dream U Sprint Course</li>
+  <li>Determine income, health care, and insurance requirements for the family post-ETS</li>
+  <li>Verify USSOCOM Warrior Care Program (Care Coalition) eligibility if wounded, ill, or injured</li>
+</ul>
+
+<h2><span class="n p-tan">CP2</span> Decision — ETS−12 to −10 months</h2>
+<div class="month">OBJECTIVE <span class="goal">gain confidence in your personal transition plan</span></div>
+<ul class="chk">
+  <li><b>Complete the 5-day DoD TAP</b> + elective workshops (must attend within 12 months of ETS)</li>
+  <li><b>Make your fellowship decision:</b> Army Career Skills Program (CSP/SkillBridge) or Care Coalition fellowship — see approval-authority table below and start command coordination early</li>
+  <li>Claim your one-year free LinkedIn Premium (active-duty program); build the profile</li>
+  <li><b>Request medical records</b> from the installation hospital (not the Ranger clinic) for the initial VA disability claim — discs take weeks</li>
+  <li><b>Identify and select a Veterans Service Officer (VSO)</b> for claims submission</li>
+  <li>Connect with Service to School and/or Military Assistance Foundation if pursuing a degree</li>
+</ul>
+
+<h2><span class="n p-orange">CP3</span> Proficiency — ETS−10 to −6 months</h2>
+<div class="month">OBJECTIVE <span class="goal">school acceptance + bridge the military-to-civilian experience gap</span></div>
+<ul class="chk">
+  <li>Apply to Warrior-Scholar Project (LTWF reimburses travel for boot camps)</li>
+  <li>Apply to college / graduate school; apply for scholarships (RSF, National Ranger Foundation, LTWF CAP/GAP, Service to School list)</li>
+  <li>Attend a Hiring Our Heroes job fair</li>
+  <li>Stack continuing-education certification(s) — IVMF Onward to Opportunity, ACT Now Education, Credentialing Assistance ($2,000/FY, max 1 credential per FY, 3 over a 10-year span)</li>
+  <li>Build the master resume (STAR-format accomplishments, not a job description) and have five civilians in the target field review it</li>
+</ul>
+
+<h2><span class="n p-white">CP4</span> Rehearsal — ETS−6 months</h2>
+<div class="month">OBJECTIVE <span class="goal">experience the impacts of your transition decisions</span></div>
+<ul class="chk">
+  <li><b>Start the transition fellowship</b> (CSP/SkillBridge or Care Coalition)</li>
+  <li><b>Submit the VA disability claim via BDD</b> — 180–90 days before separation. Claims submitted after the window aren't processed until after separation.</li>
+  <li>Apply for VA Health Care (1010EZ); make the TRICARE plan decision; enroll BENEFEDS vision + dental</li>
+  <li><b>Apply for life insurance</b> — ideally before the medical-records review and claim (insurability); VGLI window is 1 year + 120 days post-ETS</li>
+  <li>Final dental exam scheduled inside 180 days of separation</li>
+  <li>Review draft DD214 line by line — name, SSN, dates, awards, schools, RE code. <b>The DD214 is yours — own it.</b></li>
+</ul>
+
+<h2><span class="n p-blue">FP</span> Ranger for Life — veteran</h2>
+<div class="month">OBJECTIVE <span class="goal">mentor the next generation of Ranger veterans</span></div>
+<ul class="chk">
+  <li>Visit your local state and federal VA Regional Office and a Vet Center; review all rating-based benefits</li>
+  <li>Join Wounded Warrior Project (if eligible) and confirm the VA decision letter with your VSO</li>
+  <li><b>Become a Ranger for Life mentor with Three Rangers Foundation</b> — close the loop for the next man</li>
+  <li>Attend a local Ranger breakfast on the 1st Saturday of each month; join a military or civilian civic organization</li>
+  <li><b>Live the Ranger Creed.</b></li>
+</ul>
+
+<h2><span class="n p-tan">A</span> CSP / SkillBridge approval authority — plan the paperwork lead time</h2>
+<table class="t">
+  <tr><th>Category</th><th>Grade</th><th>Days</th><th>Approval authority</th></tr>
+  <tr><td>I</td><td>E1–E5</td><td>Up to 120</td><td>First field-grade commander with UCMJ authority</td></tr>
+  <tr><td>II</td><td>E6–E7, WO1–CW3, O1–O3</td><td>Up to 90</td><td>First O6 commander with UCMJ authority</td></tr>
+  <tr><td>III</td><td>E8–E9, CW4–CW5, O4+</td><td>Up to 60</td><td>First General Officer in the chain</td></tr>
+</table>
+<div class="note"><b>AER CSP grants:</b> up to $250 local CONUS · $500 non-local CONUS · $1,000 OCONUS→CONUS. Covers travel, business attire, tools, lodging, utilities, food.</div>
+
+<h2><span class="n">☎</span> Key contacts — fill in yours</h2>
+<table class="t">
+  <tr><th>Function</th><th>POC</th><th>Contact</th></tr>
+  <tr><td>Installation TAP office</td><td><span class="fill" data-f="tapn" data-ph="name"></span></td><td><span class="fill" data-f="tapc" data-ph="phone / email" style="min-width:180px"></span></td></tr>
+  <tr><td>Battalion Education Counselor</td><td><span class="fill" data-f="becn" data-ph="name"></span></td><td><span class="fill" data-f="becc" data-ph="phone / email" style="min-width:180px"></span></td></tr>
+  <tr><td>Care Coalition RCC (if eligible)</td><td><span class="fill" data-f="ccn" data-ph="name"></span></td><td><span class="fill" data-f="ccc" data-ph="phone / email" style="min-width:180px"></span></td></tr>
+  <tr><td>Unit transition counselor / S1</td><td><span class="fill" data-f="s1n" data-ph="name"></span></td><td><span class="fill" data-f="s1c" data-ph="phone / email" style="min-width:180px"></span></td></tr>
+  <tr><td>Three Rangers Foundation mentor</td><td><span class="fill" data-f="trfmentor" data-ph="name"></span></td><td>threerangersfoundation.org/request-support</td></tr>
+  <tr><td>Selected VSO</td><td><span class="fill" data-f="vso" data-ph="name"></span></td><td><span class="fill" data-f="vsoc" data-ph="phone / email"></span></td></tr>
+</table>
+<div class="note"><b>Current installation POCs</b> (TAP offices, education counselors, Care Coalition) are listed in the Ranger Transition Blue Book — verify with your unit and fill in above; names and numbers rotate.</div>
+
+<h2><span class="n p-crimson">!</span> Hard timing gates — these windows do not reopen</h2>
+<ul>
+  <li><b>BDD claim: ETS−180 to ETS−90.</b> Miss it and the claim doesn't process until after separation — often a year-plus delay. Decision announced within ~30 days of separation when filed in window.</li>
+  <li><b>TAP 5-day workshop:</b> within 12 months of ETS (mandatory registration through the installation office).</li>
+  <li><b>SkillBridge/CSP approval</b> is the real gate, not the 180-day rule — Category I approvals run through the first field-grade commander; start paperwork 90–120 days before intended start.</li>
+  <li><b>Medical documentation:</b> if it's not in the record before separation, it's hard to claim later. Every ailment, every visit — installation hospital records, not just the Ranger clinic.</li>
+  <li><b>Final dental exam:</b> inside 180 days of separation.</li>
+  <li><b>TRICARE enrollment:</b> 90 days post-separation (retirees) or coverage decisions lapse to space-available.</li>
+  <li><b>VGLI:</b> apply within 1 year + 120 days of leaving — no-underwriting conversion of SGLI coverage.</li>
+  <li><b>GI Bill transfer to dependents</b> carries a 4-year ADSO (active duty, Selected Reserve, or a combination) and must be initiated while still serving — no break in service, including time in the IRR.</li>
+  <li><b>Claims filed within one year of separation have higher success rates</b> — chronicity is easier to establish.</li>
+</ul>
+
+<div class="callout blue">
+  <span class="lab">Mentor sign-off</span>
+  Review this plan with your Three Rangers Foundation mentor at each checkpoint (SP, CP1–CP4, FP). Mentor initials per phase: SP <span class="fill" data-f="isp" data-ph="__" style="min-width:32px"></span> · CP1 <span class="fill" data-f="i1" data-ph="__" style="min-width:32px"></span> · CP2 <span class="fill" data-f="i2" data-ph="__" style="min-width:32px"></span> · CP3 <span class="fill" data-f="i3" data-ph="__" style="min-width:32px"></span> · CP4 <span class="fill" data-f="i4" data-ph="__" style="min-width:32px"></span> · FP <span class="fill" data-f="ifp" data-ph="__" style="min-width:32px"></span>
+</div>
+
+
+<div class="toolbar">
+  <span>PROGRESS: <span class="prog" id="prog">0 / 0</span> &nbsp;·&nbsp; saved locally in this browser</span>
+  <span><button id="dl" style="color:var(--green);border-color:var(--green);margin-right:8px;">DOWNLOAD MY COPY</button><button id="reset">RESET ALL</button></span>
+</div>
+
+<script>
+(function(){
+  var NS = 'ranger-master-plan-v1';
+  var store = {};
+  var ok = true;
+  try { store = JSON.parse(localStorage.getItem(NS)) || {}; }
+  catch(e) { ok = false; }
+  function save(){ if(!ok) return; try{ localStorage.setItem(NS, JSON.stringify(store)); }catch(e){ ok=false; } }
+
+  // stable key per checklist item, derived from its text — survives reordering,
+  // resets only if the item's wording is edited
+  function keyFor(el){
+    var t = el.textContent.trim().slice(0,100), h = 0;
+    for (var i=0;i<t.length;i++){ h = (h*31 + t.charCodeAt(i)) | 0; }
+    return 'c' + (h>>>0).toString(36);
+  }
+
+  var items = document.querySelectorAll('.chk li');
+  function updateProg(){
+    var done = 0;
+    items.forEach(function(li){ if(li.classList.contains('done')) done++; });
+    document.getElementById('prog').textContent = done + ' / ' + items.length;
+  }
+
+  items.forEach(function(li){
+    var k = keyFor(li);
+    if (store[k]) li.classList.add('done');
+    li.addEventListener('click', function(e){
+      if (e.target.closest('a')) return; // let links work
+      li.classList.toggle('done');
+      if (li.classList.contains('done')) store[k] = 1; else delete store[k];
+      save(); updateProg();
+    });
+  });
+
+  // editable fill-in fields
+  document.querySelectorAll('.fill').forEach(function(f){
+    f.setAttribute('contenteditable','true');
+    f.setAttribute('spellcheck','false');
+    var k = 'f:' + f.dataset.f;
+    if (store[k]) f.textContent = store[k];
+    f.addEventListener('input', function(){
+      var v = f.textContent.trim();
+      if (v) store[k] = v; else delete store[k];
+      save();
+    });
+    f.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); f.blur(); } });
+  });
+
+  // bake current checks + fills into a fresh copy of this file and download it.
+  // the copy is still fully interactive when opened anywhere.
+  document.getElementById('dl').addEventListener('click', function(){
+    var doc = document.documentElement.cloneNode(true);
+    // strip contenteditable attrs; the script re-adds them on load
+    doc.querySelectorAll('.fill').forEach(function(f){ f.removeAttribute('contenteditable'); });
+    var html = '<!DOCTYPE html>\n' + doc.outerHTML;
+    var who = (store['f:name'] || 'my').trim().split(/\s+/).pop().toLowerCase().replace(/[^a-z0-9]/g,'') || 'my';
+    var d = new Date(), stamp = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([html], {type:'text/html'}));
+    a.download = 'ranger-master-plan-' + who + '-' + stamp + '.html';
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  });
+
+  document.getElementById('reset').addEventListener('click', function(){
+    if (!confirm('Clear all checkmarks and fill-in fields on this machine?')) return;
+    store = {}; save();
+    items.forEach(function(li){ li.classList.remove('done'); });
+    document.querySelectorAll('.fill').forEach(function(f){ f.textContent=''; });
+    updateProg();
+  });
+
+  if (!ok) {
+    document.querySelector('.toolbar span').innerHTML =
+      'PROGRESS: <span class="prog" id="prog2">—</span> · <b style="color:var(--red)">this browser blocks local storage for files — checks will not survive closing</b>';
+  }
+  updateProg();
+})();
+</script>
+</body>
+</html>
